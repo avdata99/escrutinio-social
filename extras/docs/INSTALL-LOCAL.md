@@ -27,17 +27,23 @@ CREATE DATABASE escrutinio_db OWNER escrutinio_user;
 ```
 git clone https://github.com/OpenDataCordoba/escrutinio-social.git
 cd escrutinio-social/
-mkdir ~/.virtualenvs
-python3 -m venv ~/envs/escrutinio
+python3.X -m venv ~/envs/escrutinio
 source ~/envs/escrutinio/bin/activate
 pip install -r requirements.txt
+```
 
+## Test
+Para correr los tests
 
-## configuracion
+```
+python -m pytest -v
+```
+
+## Configuracion
 
 Definir tu escrutinio_social/local_settings.py teniendo en cuenta la nueva base
 
-``` py
+```py
 # Requiere una base de datos postgres con postgis activado
 DATABASES = {
     'default': {
