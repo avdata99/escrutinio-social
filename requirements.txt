@@ -29,6 +29,7 @@ djangorestframework_simplejwt==4.5.0
 
 drf-yasg[validation]==1.20.0
 
+git+https://github.com/mgaitan/django-admincommand.git@filefield#egg=django-admincommand
 git+https://github.com/mgaitan/django-exportable-admin.git@dj21
 git+https://github.com/mgaitan/django-versatileimagefield@one-dimension-resize#egg=django-versatileimagefield
 

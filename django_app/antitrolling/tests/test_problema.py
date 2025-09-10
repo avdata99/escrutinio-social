@@ -1,20 +1,9 @@
 from elecciones.tests.factories import (
-    CargaFactory,
-    CategoriaFactory,
-    CategoriaOpcionFactory,
-    FiscalFactory,
     AttachmentFactory,
-    IdentificacionFactory,
-    UserFactory,
-    VotoMesaReportadoFactory,
-    CircuitoFactory, SeccionFactory, LugarVotacionFactory, MesaFactory,
+    MesaFactory,
 )
-from adjuntos.models import Identificacion
 from elecciones.models import MesaCategoria
 from problemas.models import Problema, ReporteDeProblema
-from adjuntos.consolidacion import (
-    consumir_novedades_carga, consumir_novedades_identificacion
-)
 from .utils_para_test import (nuevo_fiscal, reportar_problema_attachment, reportar_problema_mesa_categoria, nueva_categoria)
 
 
@@ -26,7 +15,9 @@ def test_identificacion_problema_troll(db):
 
     attach = AttachmentFactory()
     ident_troll = reportar_problema_attachment(attach, fiscal_troll)
-    Problema.reportar_problema(fiscal_troll, "foto fea", ReporteDeProblema.TIPOS_DE_PROBLEMA.ilegible, identificacion=ident_troll)
+    Problema.reportar_problema(
+        fiscal_troll, "foto fea", ReporteDeProblema.TIPOS_DE_PROBLEMA.ilegible, identificacion=ident_troll
+    )
     ident_ok = reportar_problema_attachment(attach, fiscal_ok)
     Problema.reportar_problema(fiscal_ok, "no me gusta",
                                ReporteDeProblema.TIPOS_DE_PROBLEMA.falta_lista, identificacion=ident_ok)

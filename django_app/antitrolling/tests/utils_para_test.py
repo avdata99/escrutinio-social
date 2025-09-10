@@ -5,7 +5,6 @@ from elecciones.tests.factories import (
     CategoriaOpcionFactory,
     FiscalFactory,
     IdentificacionFactory,
-    OpcionFactory,
     UserFactory,
     VotoMesaReportadoFactory,
 )
