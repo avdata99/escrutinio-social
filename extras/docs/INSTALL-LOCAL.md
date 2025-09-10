@@ -1,10 +1,11 @@
-Dependiendo la version de Python 3.7 puede no estar disponible. Puedes buscar el paquete de un tercero
-(por ejemplo el PPA de deadsneaks en ubuntu)
-
+Contexto:
+ - Python 3.8
+ - Django 2.2
+ - PSQL 15
 
 ```
 sudo apt update
-sudo apt install -y python3.7 python3.7-dev gdal-bin
+sudo apt install -y python3.8 python3.8-venv gdal-bin
 ```
 
 ## Crear una base de datos
