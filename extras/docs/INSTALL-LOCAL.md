@@ -36,7 +36,7 @@ pip install -r requirements.txt
 Para correr los tests
 
 ```
-python -m pytest -v
+pytest -v
 ```
 
 ## Configuracion
