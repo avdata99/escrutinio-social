@@ -15,8 +15,6 @@ from model_utils import Choices
 import logging.config
 import structlog
 
-from dotenv import load_dotenv
-load_dotenv()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -47,7 +45,6 @@ INSTALLED_APPS = [
     'fancy_cache',
     'material.theme.lightblue',
     'material',
-    'dbbackup',
     'constance',
     'constance.backends.database',
     'djangoql',
@@ -136,11 +133,11 @@ WSGI_APPLICATION = 'escrutinio_social.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASS'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT', ''),
+        'NAME': os.getenv('DB_NAME', 'escrutinio_db'),
+        'USER': os.getenv('DB_USER', 'escrutinio_user'),
+        'PASSWORD': os.getenv('DB_PASS', 'escrutinio_pass'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 # Password validation
@@ -213,9 +210,6 @@ else:
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
-
-DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
-DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, 'backups')}
 
 HIJACK_LOGIN_REDIRECT_URL = 'home'  # Where admins are redirected to after hijacking a user
 HIJACK_ALLOW_GET_REQUESTS = True
