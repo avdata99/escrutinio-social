@@ -5,7 +5,7 @@ from django.forms import modelformset_factory, BaseModelFormSet
 from material import Layout, Row, Fieldset
 from localflavor.ar.forms import ARDNIField
 from django.contrib.auth.forms import AuthenticationForm
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.core.validators import ValidationError, MinLengthValidator, MaxLengthValidator
 from django.contrib.auth import password_validation
 from django.template import engines

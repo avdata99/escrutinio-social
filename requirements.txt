@@ -1,3 +1,8 @@
+# MIGRATODO, attrdict is dead since 2019. REMOVE IT
+# And we have errors:
+# elecciones/tests/test_configuracion_computo.py::test_configuracion_combinada
+#  /home/fiodor/3envs/escrutinio-dj-3-py38/lib/python3.8/site-packages/attrdict/mapping.py:4: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working
+#    from collections import Mapping
 attrdict==2.0.1
 boto3==1.17.78
 
@@ -11,11 +16,11 @@ django-constance[database]==2.9.1
 django-excel==0.0.10
 django-extensions==2.1.7
 django-fancy-cache==0.11.0
-django-hijack==2.1.10
+django-hijack==3.4.5
 django-geojson==4.0.0
 django-leaflet==0.28.3
-django-localflavor==2.2
-django-material==1.7.6
+django-localflavor==3.1
+django-material==1.12.0
 django-model-utils==4.3.1
 django-storages==1.11.1
 django-structlog==1.2.3
