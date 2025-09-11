@@ -23,11 +23,11 @@ django-localflavor==3.1
 django-material==1.12.0
 django-model-utils==4.3.1
 django-storages==1.11.1
-django-structlog==1.2.3
+django-structlog==1.6.3
 # MIGRATODO: Sumernote latest version from 2021, drop if possible
 # https://pypi.org/project/django-summernote/#history
 django-summernote==0.8.20.0
-django-upload-validator==1.1.5
+django-upload-validator==1.1.6
 
 djangoql==0.17.1
 djangorestframework==3.12.4
@@ -43,7 +43,7 @@ html2text==2016.9.19
 jsonfield==2.0.2
 pandas==1.2.4
 pdf2image==1.15.1
-phonenumbers==8.6.0
+phonenumbers==8.13.55
 Pillow==8.2.0
 psycopg2_binary==2.8.6
 PyJWT==1.7.1   # downgrade because of https://github.com/jazzband/djangorestframework-simplejwt/issues/326

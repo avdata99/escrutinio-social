@@ -281,6 +281,7 @@ logging.config.dictConfig({
 
 structlog.configure(
     processors=[
+        structlog.contextvars.merge_contextvars,
         structlog.stdlib.filter_by_level,
         structlog.processors.TimeStamper(fmt="iso"),
         structlog.stdlib.add_logger_name,
@@ -292,7 +293,9 @@ structlog.configure(
         structlog.processors.ExceptionPrettyPrinter(),
         structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
     ],
-    context_class=structlog.threadlocal.wrap_dict(dict),
+    # removed in lib
+    # https://github.com/jrobichaud/django-structlog/blob/9dd6ed6fa7fa1a5cbc9f0dc0887167f19730e075/README.rst#changes-you-need-to-do
+    # context_class=structlog.threadlocal.wrap_dict(dict),
     logger_factory=structlog.stdlib.LoggerFactory(),
     wrapper_class=structlog.stdlib.BoundLogger,
     cache_logger_on_first_use=True,
@@ -326,7 +329,6 @@ SUMMERNOTE_CONFIG = {
     # You can disable attachment feature.
     'disable_attachment': False,
 }
-
 
 # contacto settings
 CARACTERISTICA_TELEFONO_DEFAULT = '351'  # CORDOBA
