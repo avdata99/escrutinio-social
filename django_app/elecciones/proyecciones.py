@@ -1,5 +1,6 @@
+from collections import defaultdict
 from functools import lru_cache
-from django.db.models import Q, F, Sum, Subquery, OuterRef, Count
+from django.db.models import Q, F, Sum, Subquery, Count
 from .models import (
     Categoria,
     Mesa,
@@ -11,6 +12,7 @@ from .models import (
 )
 from .resultados import ResultadoCombinado
 from .sumarizador import Sumarizador
+
 
 def create_sumarizador(
     parametros_sumarizacion=None,
@@ -50,7 +52,7 @@ def create_sumarizador(
 
 
 class Proyecciones(Sumarizador):
-    
+
     """
     Esta clase encapsula el cómputo de proyecciones.
     """
@@ -110,7 +112,7 @@ class Proyecciones(Sumarizador):
     def coeficiente_para_proyeccion(self, id_agrupacion):
         """
         Devuelve el coeficiente o factor de ponderación para una agrupación de circuitos.
-        Idealmente debería surgir de la división entre la totalidad de votantes en la agrupación, 
+        Idealmente debería surgir de la división entre la totalidad de votantes en la agrupación,
         dividido por la cantidad de votantes en las mesas escrutadas, pero ante la imposibilidad
         de contar con esos datos estamos dividiendo directamente la cantidad de mesas.
         """
@@ -163,7 +165,7 @@ class Proyecciones(Sumarizador):
 
     def cant_mesas_escrutadas_por_agrupacion(self):
         """
-        Devuelve una lista de tuplas donde el primer elemento es una agrupación de circuitosy el segundo 
+        Devuelve una lista de tuplas donde el primer elemento es una agrupación de circuitosy el segundo
         la cantidad de mesas escrutadas en esa agrupación de circuitos.
         """
 
@@ -227,16 +229,44 @@ class Proyecciones(Sumarizador):
         correspondientes a agrupaciones que llegaron al mínimo de mesas requerido.
         """
 
-        agrupaciones_subquery = AgrupacionCircuitos.objects.filter(
-            id__in=self.agrupaciones_a_considerar()
-        ).filter(id__in=(OuterRef('carga__mesa_categoria__mesa__circuito__agrupaciones'))
-                 ).values_list('id', flat=True)
+        # Get the agrupaciones to consider
+        agrupaciones_ids = list(self.agrupaciones_a_considerar())
 
-        return self.votos_reportados(categoria, mesas).values_list('opcion__id').annotate(
-            id_agrupacion=Subquery(agrupaciones_subquery)
-        ).exclude(id_agrupacion__isnull=True).annotate(
-            sum_votos=Sum('votos')
-        ).values_list('opcion__id', 'id_agrupacion', 'sum_votos')
+        # Create a subquery to get circuitos that belong to the agrupaciones we care about
+        circuitos_subquery = AgrupacionCircuito.objects.filter(
+            agrupacion_id__in=agrupaciones_ids
+        ).values_list('circuito_id', flat=True)
+
+        # Filter votos_reportados to only include those from circuitos in our agrupaciones
+        votos_reportados = self.votos_reportados(categoria, mesas).filter(
+            carga__mesa_categoria__mesa__circuito_id__in=Subquery(circuitos_subquery)
+        )
+
+        # Now we need to get the agrupacion_id for each circuito
+        # We'll create a mapping of circuito_id to agrupacion_id
+        circuito_agrupacion_map = {}
+        for agrupacion_circuito in AgrupacionCircuito.objects.filter(
+            agrupacion_id__in=agrupaciones_ids
+        ):
+            circuito_agrupacion_map[agrupacion_circuito.circuito_id] = agrupacion_circuito.agrupacion_id
+
+        # Since we can't easily do this in a single SQL query with the current structure,
+        # we'll process the results in Python
+        votos_por_opcion_agrupacion = defaultdict(lambda: defaultdict(int))
+
+        for voto in votos_reportados.values_list('opcion_id', 'carga__mesa_categoria__mesa__circuito_id', 'votos'):
+            opcion_id, circuito_id, votos = voto
+            agrupacion_id = circuito_agrupacion_map.get(circuito_id)
+            if agrupacion_id:
+                votos_por_opcion_agrupacion[agrupacion_id][opcion_id] += votos
+
+        # Convert to the expected format: list of (opcion_id, agrupacion_id, sum_votos)
+        result = []
+        for agrupacion_id, opcion_votos in votos_por_opcion_agrupacion.items():
+            for opcion_id, sum_votos in opcion_votos.items():
+                result.append((opcion_id, agrupacion_id, sum_votos))
+
+        return result
 
     def votos_por_agrupacion(self, votos_a_procesar):
         """
