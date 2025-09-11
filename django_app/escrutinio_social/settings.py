@@ -58,7 +58,6 @@ INSTALLED_APPS = [
     'material.frontend',
     'django_admin_row_actions',
     'hijack',
-    'compat',
     # 'attachments',
     'djgeojson',
     'leaflet',
