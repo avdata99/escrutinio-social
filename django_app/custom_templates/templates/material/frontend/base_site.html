@@ -1,6 +1,6 @@
 {% extends 'material/frontend/base.html' %}
-{% load staticfiles %}
-{% load hijack_tags %}
+{% load static %}
+{% load hijack %}
 
 
 
@@ -10,7 +10,12 @@
  {% endblock %}
 
  {% block body %}
+ {% comment %}
+ # MIGRATODO
+ # Maybe hijack_notification was replaced
+ https://django-hijack.readthedocs.io/en/stable/customization/
  {% hijack_notification %}
+ {% endcomment %}
  {{ block.super }}
  {% endblock %}
 

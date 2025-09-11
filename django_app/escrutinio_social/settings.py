@@ -11,13 +11,17 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import json
 import os
 import sys
+from pathlib import Path
 from model_utils import Choices
 import logging.config
 import structlog
 
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Default primary key field type (Django 3.2+)
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -38,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_exportable_admin',
     'anymail',
     'localflavor',
     'django_extensions',
@@ -278,6 +281,7 @@ logging.config.dictConfig({
 
 structlog.configure(
     processors=[
+        structlog.contextvars.merge_contextvars,
         structlog.stdlib.filter_by_level,
         structlog.processors.TimeStamper(fmt="iso"),
         structlog.stdlib.add_logger_name,
@@ -289,7 +293,9 @@ structlog.configure(
         structlog.processors.ExceptionPrettyPrinter(),
         structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
     ],
-    context_class=structlog.threadlocal.wrap_dict(dict),
+    # removed in lib
+    # https://github.com/jrobichaud/django-structlog/blob/9dd6ed6fa7fa1a5cbc9f0dc0887167f19730e075/README.rst#changes-you-need-to-do
+    # context_class=structlog.threadlocal.wrap_dict(dict),
     logger_factory=structlog.stdlib.LoggerFactory(),
     wrapper_class=structlog.stdlib.BoundLogger,
     cache_logger_on_first_use=True,
@@ -321,9 +327,8 @@ IMAPS = json.loads(os.getenv("IMAPS", "[]"))
 SUMMERNOTE_THEME = 'lite'
 SUMMERNOTE_CONFIG = {
     # You can disable attachment feature.
-    'disable_attachment': True,
+    'disable_attachment': False,
 }
-
 
 # contacto settings
 CARACTERISTICA_TELEFONO_DEFAULT = '351'  # CORDOBA
