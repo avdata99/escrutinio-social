@@ -11,13 +11,17 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import json
 import os
 import sys
+from pathlib import Path
 from model_utils import Choices
 import logging.config
 import structlog
 
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Default primary key field type (Django 3.2+)
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -38,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_exportable_admin',
     'anymail',
     'localflavor',
     'django_extensions',

@@ -1,5 +1,5 @@
 from urllib import parse
-from django.utils.six.moves.urllib.parse import urlsplit
+from urllib.parse import urlsplit
 from django.conf import settings
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -13,12 +13,9 @@ from .definiciones import *
 import django_excel as excel
 
 from elecciones.models import (
-    MesaCategoria,
     Distrito,
-    Seccion,
     Circuito,
     Categoria,
-    LugarVotacion,
     Mesa,
     ConfiguracionComputo,
     ConfiguracionComputoDistrito,

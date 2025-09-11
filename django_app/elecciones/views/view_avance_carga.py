@@ -36,7 +36,7 @@ from elecciones.resultados_resumen import (
 )
 
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.utils.six.moves.urllib.parse import urlsplit
+from urllib.parse import urlsplit
 
 ESTRUCTURA = {None: Seccion, Seccion: Circuito, Circuito: LugarVotacion, LugarVotacion: Mesa, Mesa: None}
 
