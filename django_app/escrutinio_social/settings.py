@@ -324,7 +324,7 @@ IMAPS = json.loads(os.getenv("IMAPS", "[]"))
 SUMMERNOTE_THEME = 'lite'
 SUMMERNOTE_CONFIG = {
     # You can disable attachment feature.
-    'disable_attachment': True,
+    'disable_attachment': False,
 }
 
 
