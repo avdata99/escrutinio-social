@@ -346,5 +346,3 @@ class ResultadosComputoCategoria(ResultadosCategoriaBase):
 
     def get_tecnica_de_proyeccion(self):
         return self.tecnica_de_proyeccion
-
-
