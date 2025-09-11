@@ -64,6 +64,13 @@ Estamos en condiciones de crear las tablas.
 ./manage.py migrate
 ```
 
+### Cache table
+
+Esto es requerido para la URL /admin/constance/config/
+
+```
+python manage.py createcachetable
+```
 
 ## Datos
 
