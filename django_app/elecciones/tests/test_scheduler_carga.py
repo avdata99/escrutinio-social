@@ -1,21 +1,16 @@
 import pytest
-from datetime import timedelta
-from django.utils import timezone
 
 from elecciones.tests.factories import (
     AttachmentFactory,
     CategoriaFactory,
-    CircuitoFactory,
     FiscalFactory,
     IdentificacionFactory,
-    MesaCategoriaDefaultFactory,
     MesaCategoriaFactory,
     MesaFactory,
 )
-from elecciones.models import MesaCategoria, Mesa
+from elecciones.models import MesaCategoria
 
-from adjuntos.consolidacion import consumir_novedades_identificacion, liberar_mesacategorias_y_attachments
-from problemas.models import Problema, ReporteDeProblema
+from adjuntos.consolidacion import liberar_mesacategorias_y_attachments
 
 
 @pytest.fixture
@@ -75,7 +70,9 @@ def test_siguiente_prioriza_estado_y_luego_coeficiente(db, settings, setup_const
         coeficiente_para_orden_de_carga=2.0,
         mesa=m3
     )
-    with django_assert_num_queries(17):
+    # Este numero depende de caches habilitados y cosas internas de Django
+    # Si hay cambios grandes, actualizarlo
+    with django_assert_num_queries(14):
         assert MesaCategoria.objects.siguiente() == mc1
 
     for i in range(settings.MIN_COINCIDENCIAS_CARGAS):
