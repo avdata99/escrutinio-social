@@ -56,8 +56,6 @@ django==4.2.24
     #   jsonfield
 django-admin-row-actions==0.10.0
     # via -r requirements.in
-django-admincommand @ git+https://github.com/mgaitan/django-admincommand.git@filefield
-    # via -r requirements.in
 django-annoying==0.10.4
     # via -r requirements.in
 django-anymail==6.0.1
@@ -96,7 +94,7 @@ django-summernote==0.8.20.0
     # via -r requirements.in
 django-upload-validator==1.1.6
     # via -r requirements.in
-django-versatileimagefield==3.1
+django-versatileimagefield @ git+https://github.com/pdelboca/django-versatileimagefield@poc-auto-resize
     # via -r requirements.in
 djangoql==0.17.1
     # via -r requirements.in
