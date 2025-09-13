@@ -11,6 +11,14 @@ from adjuntos.models import Attachment, Identificacion
 from problemas.models import Problema
 from problemas.forms import IdentificacionDeProblemaForm
 
+
+def is_ajax(request):
+    """Replaces deprecated Django 3.x function.
+
+    https://docs.djangoproject.com/en/4.1/releases/3.1/#id2
+    """
+    return request.headers.get('x-requested-with') == 'XMLHttpRequest'
+
 logger = structlog.get_logger(__name__)
 
 class ReporteDeProblemaCreateView(FormView):
@@ -32,7 +40,7 @@ class ReporteDeProblemaCreateView(FormView):
         # una vez desde el POST ajax, y otra luego de la primer redirección
         # meto este hack para que sólo cree el objeto cuando es ajax
         # y en la segunda vuelta sólo redireccion
-        if self.request.is_ajax():
+        if is_ajax(self.request):
             fiscal = self.request.user.fiscal
             # Lo falso grabo para quedarme con la data de sus campos.
             reporte_de_problema = form.save(commit=False)
