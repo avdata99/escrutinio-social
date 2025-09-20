@@ -63,6 +63,14 @@ from django.conf import settings
 import structlog
 
 
+def is_ajax(request):
+    """Replaces deprecated Django 3.x function.
+
+    https://docs.djangoproject.com/en/4.1/releases/3.1/#id2
+    """
+    return request.headers.get('x-requested-with') == 'XMLHttpRequest'
+
+
 NO_PERMISSION_REDIRECT = 'permission-denied'
 
 logger = structlog.get_logger(__name__)
@@ -424,7 +432,7 @@ class ReporteDeProblemaCreateView(FormView):
     def form_valid(self, form):
         # mismo hack que en la misma vista adjuntos.views.ReporteDeProblemaCreateView
         # FIX ME: no tiene tests
-        if self.request.is_ajax():
+        if is_ajax(self.request):
             fiscal = self.request.user.fiscal
             carga = form.save(commit=False)
             carga.fiscal = fiscal
