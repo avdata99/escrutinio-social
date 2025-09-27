@@ -1,7 +1,7 @@
-from types import SimpleNamespace
 from django.conf import settings
 from functools import lru_cache
 from collections import OrderedDict
+from elecciones.utils import DictLikeNamespace
 from .models import (
     Opcion,
     OPCIONES_A_CONSIDERAR,
@@ -213,7 +213,7 @@ class ResultadoCombinado(ResultadosBase):
     _total_no_positivos = 0
 
     def __init__(self):
-        super().__init__(SimpleNamespace(**{
+        super().__init__(DictLikeNamespace(**{
             'total_mesas': 0,
             'total_mesas_escrutadas': 0,
             'electores': 0,
