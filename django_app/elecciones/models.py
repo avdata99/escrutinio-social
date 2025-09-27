@@ -1214,7 +1214,6 @@ class Carga(TimeStampedModel):
         # Si ya hay firma y no están forzando, listo.
         if self.firma and not forzar:
             return
-        # categoria = self.mesa_categoria.categoria
         reportados_ordenados = self.reportados.order_by(
             'opcion__categoriaopcion__orden'
         ).values_list('opcion', 'votos')
@@ -1249,13 +1248,8 @@ class Carga(TimeStampedModel):
 
     def __sub__(self, carga_2):
         # arranco obteniendo los votos ordenados por opcion, que me van a ser utiles varias veces
-        categoria = self.mesa_categoria.categoria
-        reportados_1 = self.reportados.filter(
-            opcion__categoriaopcion__categoria=categoria
-        ).order_by('opcion__categoriaopcion__orden')
-        reportados_2 = carga_2.reportados.filter(
-            opcion__categoriaopcion__categoria=categoria
-        ).order_by('opcion__categoriaopcion__orden')
+        reportados_1 = self.reportados.order_by('opcion__categoriaopcion__orden')
+        reportados_2 = carga_2.reportados.order_by('opcion__categoriaopcion__orden')
 
         # antes que nada: si las cargas son incomparables, o los conjuntos de opciones no coinciden,
         # la comparación se considera incorrecta
