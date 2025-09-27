@@ -219,7 +219,7 @@ def test_proyeccion_con_agrupaciones_no_consideradas(carta_marina, fiscal_client
     agrupaciones_no_consideradas = resultados.resultados['agrupaciones_no_consideradas']
     assert agrupaciones_no_consideradas.count() == 1
 
-    nombre_agrupacion, minimo_mesas, mesas_escrutadas = agrupaciones_no_consideradas.first()
+    nombre_agrupacion, minimo_mesas, mesas_escrutadas = agrupaciones_no_consideradas[0]
     assert s1.nombre in nombre_agrupacion
     assert minimo_mesas == 2
     assert mesas_escrutadas == 1

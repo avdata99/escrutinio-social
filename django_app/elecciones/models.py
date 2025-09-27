@@ -1214,7 +1214,11 @@ class Carga(TimeStampedModel):
         # Si ya hay firma y no están forzando, listo.
         if self.firma and not forzar:
             return
-        tuplas = (f'{o}-{v}' for (o, v) in self.opcion_votos().order_by('opcion__id'))
+        categoria = self.mesa_categoria.categoria
+        reportados_ordenados = self.reportados.filter(
+            opcion__categoriaopcion__categoria=categoria
+        ).order_by('opcion__categoriaopcion__orden').values_list('opcion', 'votos')
+        tuplas = (f'{o}-{v}' for (o, v) in reportados_ordenados)
         self.firma = '|'.join(tuplas)
         self.save(update_fields=['firma'])
 
