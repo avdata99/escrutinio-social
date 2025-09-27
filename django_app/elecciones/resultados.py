@@ -40,7 +40,7 @@ class ResultadosBase():
         Devuelve los datos de resultados 'crudos' para permitir que los distintos sumarizadores
         pasen información al template directamente sin obligar a que esta clase oficie de pasamanos.
         """
-        return dict(self.resultados)
+        return vars(self.resultados)
 
     def __str__(self):
         return f"Resultados: ({self.tabla_positivos()}, {self.tabla_no_positivos()})"
