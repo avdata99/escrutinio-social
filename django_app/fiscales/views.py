@@ -476,9 +476,7 @@ def detalle_mesa_categoria(request, categoria_id, mesa_numero, carga_id=None):
     mesa = mc.mesa
     categoria = mc.categoria
     carga = mc.carga_testigo
-    reportados = carga.reportados.filter(
-        opcion__categoriaopcion__categoria=categoria
-    ).order_by('opcion__categoriaopcion__orden')
+    reportados = carga.reportados.order_by('opcion__categoriaopcion__orden')
     return render(
         request,
         "fiscales/detalle_mesa_categoria.html",
