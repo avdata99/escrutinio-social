@@ -5,7 +5,7 @@ Contexto:
 
 ```
 sudo apt update
-sudo apt install -y python3.10 python3.10-venv gdal-bin
+sudo apt install -y python3.10 python3.10-dev python3.10-venv gdal-bin
 ```
 
 ## Crear una base de datos
