@@ -135,20 +135,20 @@ numpy==1.24.4
     # via pandas
 packaging==25.0
     # via drf-yasg
-pandas==1.2.4
+pandas==2.3.2
     # via -r requirements.in
 pdf2image==1.15.1
     # via -r requirements.in
 phonenumbers==8.13.55
     # via -r requirements.in
-pillow==8.2.0
+pillow==11.3.0
     # via
     #   -r requirements.in
     #   django-versatileimagefield
     #   pdf2image
 ply==3.11
     # via djangoql
-psycopg2-binary==2.8.6
+psycopg2-binary==2.9.10
     # via -r requirements.in
 pyexcel==0.7.3
     # via
@@ -220,6 +220,8 @@ typing-extensions==4.13.2
     #   faker
     #   structlog
     #   swagger-spec-validator
+tzdata==2025.2
+    # via pandas
 uritemplate==4.1.1
     # via drf-yasg
 urllib3==1.26.20

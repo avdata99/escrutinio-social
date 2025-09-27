@@ -40,10 +40,10 @@ git+https://github.com/pdelboca/django-versatileimagefield@poc-auto-resize#egg=d
 
 html2text==2016.9.19
 jsonfield==2.0.2
-pandas==1.2.4
+pandas==2.3.2
 pdf2image==1.15.1
 phonenumbers==8.13.55
-Pillow==8.2.0
-psycopg2_binary==2.8.6
+Pillow==11.3.0
+psycopg2_binary==2.9.10
 PyJWT==1.7.1   # downgrade because of https://github.com/jazzband/djangorestframework-simplejwt/issues/326
 sentry-sdk==0.12.3
