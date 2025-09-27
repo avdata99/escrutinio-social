@@ -1,6 +1,6 @@
+from types import SimpleNamespace
 from django.conf import settings
 from functools import lru_cache
-from attrdict import AttrDict
 from collections import OrderedDict
 from .models import (
     Opcion,
@@ -213,7 +213,7 @@ class ResultadoCombinado(ResultadosBase):
     _total_no_positivos = 0
 
     def __init__(self):
-        super().__init__(AttrDict({
+        super().__init__(SimpleNamespace(**{
             'total_mesas': 0,
             'total_mesas_escrutadas': 0,
             'electores': 0,
