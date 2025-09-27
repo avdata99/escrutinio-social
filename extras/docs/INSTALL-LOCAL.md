@@ -1,11 +1,11 @@
 Contexto:
- - Python 3.8
+ - Python 3.10
  - Django 4.2
  - PSQL 15
 
 ```
 sudo apt update
-sudo apt install -y python3.8 python3.8-venv gdal-bin
+sudo apt install -y python3.10 python3.10-venv gdal-bin
 ```
 
 ## Crear una base de datos
