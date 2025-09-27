@@ -1,6 +1,6 @@
 Contexto:
  - Python 3.8
- - Django 2.2
+ - Django 4.2
  - PSQL 15
 
 ```
