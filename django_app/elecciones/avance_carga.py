@@ -1,5 +1,5 @@
+from elecciones.utils import DictLikeNamespace
 from django.db.models import Q, Sum, OuterRef, Exists
-from attrdict import AttrDict
 from .models import (
     Distrito,
     SeccionPolitica,
@@ -52,7 +52,7 @@ class AvanceDeCarga(Sumarizador):
 
     def calcular(self):
         """
-        Realiza los cálculos necesarios y devuelve un AttrDict con la info obtenida
+        Realiza los cálculos necesarios y devuelve un DictLikeNamespace con la info obtenida
         """
         # Nota previa: se elige mirar siempre status de la mesacat, nunca existencia o inexistencia de cargas
         # de esta forma, el reporte es internamente coherente.
@@ -68,7 +68,6 @@ class AvanceDeCarga(Sumarizador):
         lookups_preident = self.lookups_de_preidentificaciones()
         if lookups_preident is not None:
             cantidad_preidentificaciones = PreIdentificacion.objects.filter(lookups_preident).count()
-
 
         mesacats_de_la_categoria = MesaCategoria.objects.filter(
             mesa__in=self.mesas_a_considerar,
@@ -92,7 +91,6 @@ class AvanceDeCarga(Sumarizador):
             status=MesaCategoria.STATUS.sin_cargar)
         mesacats_en_identificacion_con_cargas = mesacats_en_identificacion.exclude(
             status=MesaCategoria.STATUS.sin_cargar)
-        
 
         # mesas sin identificar y en identificación: dependen de las identificaciones **válidas**
         # y de los attachment
@@ -136,7 +134,7 @@ class AvanceDeCarga(Sumarizador):
 
         dato_total = DatoTotalAvanceDeCarga().para_mesas(self.mesas_a_considerar)
 
-        return AttrDict({
+        return DictLikeNamespace(**{
             "total": dato_total,
             "sin_identificar_sin_cargas": DatoParcialAvanceDeCarga(dato_total).para_mesacats(mesacats_sin_identificar_sin_cargas),
             "sin_identificar_con_cargas": DatoParcialAvanceDeCarga(dato_total).para_mesacats(mesacats_sin_identificar_con_cargas),
@@ -167,7 +165,7 @@ class AvanceDeCarga(Sumarizador):
         Lo dejo por eventuales refactors.
         """
         dato_total = DatoTotalAvanceDeCarga().para_valores_fijos(1000, 50000)
-        resultado_bruto = AttrDict({
+        resultado_bruto = DictLikeNamespace(**{
             "total": dato_total,
             "sin_identificar_sin_cargas": DatoParcialAvanceDeCarga(dato_total).para_valores_fijos(200, 10000),
             "sin_identificar_con_cargas": DatoParcialAvanceDeCarga(dato_total).para_valores_fijos(0, 0),

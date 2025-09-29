@@ -1,7 +1,7 @@
 from django.conf import settings
 from functools import lru_cache
-from attrdict import AttrDict
 from collections import OrderedDict
+from elecciones.utils import DictLikeNamespace
 from .models import (
     Opcion,
     OPCIONES_A_CONSIDERAR,
@@ -40,7 +40,7 @@ class ResultadosBase():
         Devuelve los datos de resultados 'crudos' para permitir que los distintos sumarizadores
         pasen información al template directamente sin obligar a que esta clase oficie de pasamanos.
         """
-        return dict(self.resultados)
+        return vars(self.resultados)
 
     def __str__(self):
         return f"Resultados: ({self.tabla_positivos()}, {self.tabla_no_positivos()})"
@@ -213,7 +213,7 @@ class ResultadoCombinado(ResultadosBase):
     _total_no_positivos = 0
 
     def __init__(self):
-        super().__init__(AttrDict({
+        super().__init__(DictLikeNamespace(**{
             'total_mesas': 0,
             'total_mesas_escrutadas': 0,
             'electores': 0,

@@ -476,12 +476,17 @@ def detalle_mesa_categoria(request, categoria_id, mesa_numero, carga_id=None):
     mesa = mc.mesa
     categoria = mc.categoria
     carga = mc.carga_testigo
-    reportados = carga.reportados.order_by('opcion__orden')
+    reportados = carga.reportados.order_by('opcion__categoriaopcion__orden')
+    # aun agregando distinct(), esta vista no hace lo esperado. Esta vista devuelve duplicados
+    # MIGRATODO no encontre el motivo. El test "test_detalle_mesa_categoria" falla
+    # hack:
+    unique_set_ids = [r.id for r in reportados]
+    reportados_unique_id = VotoMesaReportado.objects.filter(id__in=unique_set_ids)
     return render(
         request,
         "fiscales/detalle_mesa_categoria.html",
         {
-            'reportados': reportados,
+            'reportados': reportados_unique_id,
             'object': mesa,
             'categoria': categoria
         }
@@ -718,4 +723,3 @@ class MesaListView(AjaxListView):
         if distrito:
             lookups &= Q(circuito__seccion__distrito_id=distrito)
         return qs.filter(lookups)
-

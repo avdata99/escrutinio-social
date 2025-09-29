@@ -1,6 +1,6 @@
 from functools import lru_cache
-from attrdict import AttrDict
 from django.db.models import Q, Sum, Subquery
+from elecciones.utils import DictLikeNamespace
 from .models import (
     Distrito,
     SeccionPolitica,
@@ -336,7 +336,7 @@ class Sumarizador():
         votos_por_opcion = self.votos_por_opcion(categoria, mesas)
         votos_positivos, votos_no_positivos = self.agrupar_votos(votos_por_opcion)
 
-        return AttrDict({
+        return DictLikeNamespace(**{
             "total_mesas": total_mesas,
             "total_mesas_escrutadas": total_mesas_escrutadas,
             "electores": electores,

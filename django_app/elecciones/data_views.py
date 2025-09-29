@@ -14,7 +14,9 @@ def resultado_parcial_categoria(request, slug_categoria, filetype):
     lista de paradas de transporte urbano de pasajeros
     '''
     categoria = Categoria.objects.get(slug=slug_categoria)
-    mesas_reportadas = VotoMesaReportado.objects.filter(categoria=categoria).order_by('mesa__numero', 'opcion__orden')
+    mesas_reportadas = VotoMesaReportado.objects.filter(categoria=categoria).order_by(
+        'mesa__numero', 'opcion__categoriaopcion__orden'
+    )
 
     headers = ['seccion', 'numero seccion', 'circuito', 'codigo circuito', 'centro de votacion', 'mesa']
     for opcion in categoria.opciones.all().order_by('orden'):

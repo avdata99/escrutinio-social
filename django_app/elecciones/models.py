@@ -1245,9 +1245,11 @@ class Carga(TimeStampedModel):
 
     def __sub__(self, carga_2):
         # arranco obteniendo los votos ordenados por opcion, que me van a ser utiles varias veces
-        reportados_1 = self.reportados.order_by('opcion__orden')
-        reportados_2 = carga_2.reportados.order_by('opcion__orden')
 
+        # 2025-09-28 se agrega distinct() porque el "test_efecto_diferencia_1" daba mal
+        # y aqui se pudo verificar que todas las opciones aparecian dos veces.
+        reportados_1 = self.reportados.order_by('opcion__categoriaopcion__orden').distinct()
+        reportados_2 = carga_2.reportados.order_by('opcion__categoriaopcion__orden').distinct()
         # antes que nada: si las cargas son incomparables, o los conjuntos de opciones no coinciden,
         # la comparación se considera incorrecta
         if self.mesa_categoria != carga_2.mesa_categoria or self.tipo != carga_2.tipo:
