@@ -723,7 +723,3 @@ class MesaListView(AjaxListView):
         if distrito:
             lookups &= Q(circuito__seccion__distrito_id=distrito)
         return qs.filter(lookups)
-        if distrito:
-            lookups &= Q(circuito__seccion__distrito_id=distrito)
-        return qs.filter(lookups)
-
