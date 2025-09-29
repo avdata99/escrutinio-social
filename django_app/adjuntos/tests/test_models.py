@@ -370,11 +370,11 @@ def test_consumir_novedades_carga_tres_ok_tres_error(db, settings):
     # Para las mc2 y mc4 se lanzará una Exception y sus cargas c2, c4 y c5
     # quedarán como procesada=False.
     side_effects = [
-        mock.DEFAULT, #comportamiento para mc1
-        Exception('error'), #comportamiento para mc2
-        mock.DEFAULT, #comportamiento para mc3
-        Exception('error'), #comportamiento para mc4
-        mock.DEFAULT #comportamiento para mc5
+        mock.DEFAULT,  # comportamiento para mc1
+        Exception('error'),  # comportamiento para mc2
+        mock.DEFAULT,  # comportamiento para mc3
+        Exception('error'),  # comportamiento para mc4
+        mock.DEFAULT  # comportamiento para mc5
     ]
     with mock.patch('adjuntos.consolidacion.consolidar_cargas', side_effect=side_effects):
         m1 = MesaFactory()
